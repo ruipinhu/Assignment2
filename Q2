@@ -1,0 +1,150 @@
+{
+  "cells": [
+ {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "# Q1："
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "# (a) Solution: One-Sample t-test"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "### State the Hypotheses\n",
+        "- Null hypothesis ($H_0$): The mean part length equals the standard value.\n",
+        "  $H_0: \\mu = 10.0 \\, \\text{cm}$\n",
+        "- Alternative hypothesis ($H_1$): The mean part length is significantly different from the standard value.\n",
+        "  $H_1: \\mu \\neq 10.0 \\, \\text{cm}$ (Two-tailed test)"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "# Given data\n",
+        "sample_mean = 10.06  # Sample mean (cm)\n",
+        "pop_mean = 10.0      # Hypothesized population mean (cm)\n",
+        "sample_std = 0.19    # Sample standard deviation (cm)\n",
+        "n = 25               # Sample size\n",
+        "alpha = 0.05         # Significance level\n",
+        "\n",
+        "# Calculate test statistic (t-value)\n",
+        "import numpy as np\n",
+        "t_stat = (sample_mean - pop_mean) / (sample_std / np.sqrt(n))\n",
+        "\n",
+        "# Calculate critical t-value\n",
+        "from scipy import stats\n",
+        "df = n - 1  # Degrees of freedom\n",
+        "t_critical = stats.t.ppf(1 - alpha/2, df)  # Two-tailed critical value\n",
+        "\n",
+        "print(f'Test statistic (t): {t_stat:.3f}')\n",
+        "print(f'Degrees of freedom: {df}')\n",
+        "print(f'Critical t-values: ±{t_critical:.3f}')"
+      ],
+      "execution_count": 1,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Test statistic (t): 1.579\n",
+            "Degrees of freedom: 24\n",
+            "Critical t-values: ±2.064\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "### Rejection Region\n",
+        "The rejection region for a two-tailed test with $\\alpha = 0.05$ and $df = 24$ is:\n",
+        "$t < -2.064$ or $t > 2.064$"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "### Conclusion\n",
+        "The calculated test statistic ($t = 1.579$) falls within the non-rejection region ($-2.064 < 1.579 < 2.064$).\n",
+        "\n",
+        "We fail to reject the null hypothesis $H_0$. At the $\\alpha = 0.05$ significance level, there is insufficient evidence to conclude that the mean part length differs from the standard value of 10.0 cm."
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "## (b): p-value Calculation and Interpretation"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "# Use previously defined variables (t_stat and df from part a)\n",
+        "# Calculate p-value for two-tailed t-test\n",
+        "p_value = 2 * (1 - stats.t.cdf(np.abs(t_stat), df))  # 双侧检验需乘2\n",
+        "\n",
+        "print(f'p-value: {p_value:.3f}')"
+      ],
+      "execution_count": 3,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "p-value: 0.127\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "### Interpretation of p-value\n",
+        "The p-value is 0.127, which is greater than the significance level α = 0.05.\n",
+        "\n",
+        "This indicates that if the null hypothesis (true mean = 10.0 cm) is true, there is a 12.7% probability of observing a test statistic as extreme as (or more extreme than) the calculated t-statistic (1.579).\n",
+        "\n",
+        "Since the p-value > α, we fail to reject the null hypothesis, confirming our conclusion from part (a)."
+      ]
+    }
+  ],
+  "metadata": {
+    "colab": {
+      "authorship_tag": "ABX9TyOPjeikZiD2W9aOTmu3UY8L",
+      "provenance": []
+    },
+    "kernelspec": {
+      "display_name": "Python [conda env:base] *",
+      "language": "python",
+      "name": "conda-base-py"
+    },
+    "language_info": {
+      "codemirror_mode": {
+        "name": "ipython",
+        "version": 3
+      },
+      "file_extension": ".py",
+      "mimetype": "text/x-python",
+      "name": "python",
+      "nbconvert_exporter": "python",
+      "pygments_lexer": "ipython3",
+      "version": "3.12.7"
+    }
+  },
+  "nbformat": 4,
+  "nbformat_minor": 4
+}
